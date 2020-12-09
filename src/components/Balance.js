@@ -1,0 +1,16 @@
+import React, { Fragment, useContext } from "react";
+// import {GlobalContext} from '../context/GlobalSta
+import { TransactionsContext } from "../context/TransactionsContext";
+
+export const Balance = () => {
+  const { transactions } = useContext(TransactionsContext);
+
+  const amount = transactions.map((transaction) => transaction.amount);
+  const total = +amount.reduce((acc, item) => (acc += item), 0);
+  return (
+    <Fragment>
+      <h4>YOUR BALANCE</h4>
+      <h1 id="balance">{total}</h1>
+    </Fragment>
+  );
+};
