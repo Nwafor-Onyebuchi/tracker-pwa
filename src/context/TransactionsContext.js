@@ -6,52 +6,78 @@ export const TransactionsContext = createContext();
 
 const TransactionsContextProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const unsubscrib = async () => {
+    try {
+      setLoading(true);
+      const data = [];
+      await firestore.collection("transactions").onSnapshot((snapshot) => {
+        let changes = snapshot.docChanges();
+        changes.forEach((change) => {
+          if (change.type === "added") {
+            data.push(change.doc.data());
+            setAdding(false);
+          } else if (change.type === "removed") {
+            setTransactions(
+              data.filter((trans) => trans._id !== change.doc.data()._id)
+            );
+          }
+        });
+        setTransactions(data);
+        setLoading(false);
+      });
+      setLoading(false);
+    } catch (error) {}
+  };
 
   const addTransaction = async (narration, amount) => {
     try {
+      setAdding(true);
       await firestore
         .collection("transactions")
         .add({ amount, narration, _id: uuid() });
+      setLoading(false);
     } catch (error) {
+      setAdding(false);
       console.log(error);
     }
-
-    // setTransactions([...transactions, { narration, amount }]);
   };
 
   const deleteTransaction = async (id) => {
     try {
-      const dataToRemove = await firestore
+      setLoading(true);
+      await firestore
         .collection("transactions")
-        .where("_id", "==", `${id}`);
-
-      dataToRemove.get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-          doc.ref.delete();
+        .where("_id", "==", `${id}`)
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            doc.ref.delete();
+          });
         });
-      });
+      return unsubscrib();
     } catch (error) {
       console.log(error.message);
     }
   };
 
   useEffect(() => {
-    const getTransactions = async () => {
-      try {
-        const data = [];
-        await firestore.collection("transactions").onSnapshot((snapshot) => {
-          let changes = snapshot.docChanges();
-          changes.forEach((change) => data.push(change.doc.data()));
-          setTransactions(data);
-        });
-      } catch (error) {}
-    };
-    getTransactions();
+    return unsubscrib();
   }, []);
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, deleteTransaction, addTransaction }}
+      value={{
+        transactions,
+        deleteTransaction,
+        addTransaction,
+        loading,
+        adding,
+        deleting,
+      }}
     >
       {children}
     </TransactionsContext.Provider>

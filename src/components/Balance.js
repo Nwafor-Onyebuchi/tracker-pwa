@@ -4,7 +4,7 @@ import { TransactionsContext } from "../context/TransactionsContext";
 
 export const Balance = () => {
   const { transactions } = useContext(TransactionsContext);
-  // console.log(transactions);
+  console.log(transactions);
   const amount = transactions.map((transaction) => transaction.amount);
   const total = amount.reduce((acc, item) => (acc += item), 0);
   return (

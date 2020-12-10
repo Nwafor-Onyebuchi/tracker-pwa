@@ -1,9 +1,21 @@
 import React, { Fragment, useState, useContext } from "react";
 import { TransactionsContext } from "../context/TransactionsContext";
 import { v1 as uuid } from "uuid";
+import {
+  Dots,
+  Levels,
+  Sentry,
+  Squares,
+  Spinner,
+  Digital,
+  Bounce,
+  Windmill,
+} from "react-activity";
+import "react-activity/dist/react-activity.css";
 
 export const AddTransaction = () => {
-  const { addTransaction } = useContext(TransactionsContext);
+  const { addTransaction, adding, deleting } = useContext(TransactionsContext);
+
   const [state, setstate] = useState({
     transaction: "",
     amount: "",
@@ -31,7 +43,8 @@ export const AddTransaction = () => {
           <label htmlFor="Transaction">Transaction</label>
           <input
             type="text"
-            placeholder="Tap to add a transaction..."
+            value={state.transaction}
+            placeholder="Enter short description for transaction"
             onChange={handleTransactionInput}
           />
         </div>
@@ -43,12 +56,12 @@ export const AddTransaction = () => {
           <input
             type="number"
             value={state.amount}
-            placeholder="Enter +value for income and -value for expense"
+            placeholder="500 (income) or -500 (expense)"
             onChange={handleAmountInput}
           />
         </div>
-        <button className="btn" onClick={show}>
-          Add Transaction
+        <button className="btn" onClick={show} disabled={adding ? true : false}>
+          {"Add Transaction"}
         </button>
       </form>
     </Fragment>
