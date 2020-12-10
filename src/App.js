@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <TransactionsContextProvider>
-        <Header name="Expense Tracker" />
+        <Header name="TrackIt" />
         <Balance />
         <Cashflow />
         <Transactions />

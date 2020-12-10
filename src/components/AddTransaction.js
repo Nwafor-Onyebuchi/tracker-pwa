@@ -20,6 +20,7 @@ export const AddTransaction = () => {
   const show = (e) => {
     e.preventDefault();
     addTransaction(state.transaction, state.amount);
+    setstate({ transaction: "", amount: "", uuid: "" });
   };
 
   return (

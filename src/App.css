@@ -71,7 +71,14 @@ h4 {
 
 .money.minus {
   color: #c0392b;
+  
 }
+
+.exp-container, .inc-container{
+  padding: 10px 40px;
+}
+
+
 
 label {
   display: inline-block;

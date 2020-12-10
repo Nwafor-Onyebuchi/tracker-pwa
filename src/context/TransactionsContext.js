@@ -1,29 +1,57 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { v1 as uuid } from "uuid";
+import { firestore } from "../firebase/config";
 
 export const TransactionsContext = createContext();
 
 const TransactionsContextProvider = ({ children }) => {
-  const [transactions, setTransactions] = useState([
-    { narration: "Books", id: uuid(), amount: 200000 },
-    { narration: "Camera", id: uuid(), amount: -45600 },
-    { narration: "T-shirt", id: uuid(), amount: -15000 },
-    { narration: "Elelctrity bills", id: uuid(), amount: 2000 },
-  ]);
+  const [transactions, setTransactions] = useState([]);
 
-  const addTransaction = (narration, amount) => {
-    setTransactions([...transactions, { narration, amount }]);
+  const addTransaction = async (narration, amount) => {
+    try {
+      await firestore
+        .collection("transactions")
+        .add({ amount, narration, _id: uuid() });
+    } catch (error) {
+      console.log(error);
+    }
+
+    // setTransactions([...transactions, { narration, amount }]);
   };
 
-  const deleteTransaction = (id) => {
-    setTransactions(
-      transactions.filter((transaction) => transaction.id !== id)
-    );
+  const deleteTransaction = async (id) => {
+    try {
+      const dataToRemove = await firestore
+        .collection("transactions")
+        .where("_id", "==", `${id}`);
+
+      dataToRemove.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
+
+  useEffect(() => {
+    const getTransactions = async () => {
+      try {
+        const data = [];
+        await firestore.collection("transactions").onSnapshot((snapshot) => {
+          let changes = snapshot.docChanges();
+          changes.forEach((change) => data.push(change.doc.data()));
+          setTransactions(data);
+        });
+      } catch (error) {}
+    };
+    getTransactions();
+  }, []);
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, addTransaction, deleteTransaction }}
+      value={{ transactions, deleteTransaction, addTransaction }}
     >
       {children}
     </TransactionsContext.Provider>
