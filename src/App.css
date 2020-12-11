@@ -41,6 +41,10 @@ h4 {
   text-transform: uppercase;
 }
 
+#signup{
+  display: flex;
+}
+
 .inc-exp-container {
   background-color: #fff;
   box-shadow: var(--box-shadow);
@@ -56,6 +60,18 @@ h4 {
 }
 
 .inc-exp-container > div:first-of-type {
+  border-right: 1px solid #dedede;
+}
+
+.inc-exp-container > div:last-of-type {
+  border-left: 1px solid #dedede;
+}
+
+#signup > div:last-of-type {
+  border-left: 1px solid #dedede;
+}
+
+#signup > div:first-of-type {
   border-right: 1px solid #dedede;
 }
 
@@ -93,6 +109,12 @@ input[type='number'] {
   font-size: 16px;
   padding: 10px;
   width: 100%;
+}
+#activity{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .btn {

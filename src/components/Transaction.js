@@ -1,8 +1,18 @@
 import React, { useContext } from "react";
 import { TransactionsContext } from "../context/TransactionsContext";
+import {
+  Dots,
+  Levels,
+  Sentry,
+  Squares,
+  Spinner,
+  Digital,
+  Bounce,
+  Windmill,
+} from "react-activity";
 
 export const Transaction = ({ transaction }) => {
-  const { deleteTransaction } = useContext(TransactionsContext);
+  const { deleteTransaction, loading } = useContext(TransactionsContext);
   const sign = transaction.amount < 0 ? "-" : "+";
   return (
     <li className={transaction.amount < 0 ? "minus" : "plus"}>

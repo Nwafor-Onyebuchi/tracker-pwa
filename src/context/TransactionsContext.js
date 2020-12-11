@@ -58,8 +58,10 @@ const TransactionsContextProvider = ({ children }) => {
             doc.ref.delete();
           });
         });
+      setLoading(false);
       return unsubscrib();
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
