@@ -128,6 +128,11 @@ input[type='number'] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+  transition: all 1s;
+}
+.btn:hover{
+  background-color: #345EAA;
+  
 }
 
 .btn:focus,

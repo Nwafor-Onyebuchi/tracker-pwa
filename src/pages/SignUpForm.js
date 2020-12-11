@@ -1,8 +1,11 @@
 import React from "react";
+import { Header } from "../components/Header";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUpForm = () => {
   return (
     <div>
+      <Header name="Sign Up" />
       <div className="inc-exp-container">
         <form id="signup">
           <div className="inc-container">
@@ -13,7 +16,7 @@ const Login = () => {
             <input
               type="text"
               // value={state.amount}
-              placeholder="Eg. example@gmail.com"
+              placeholder="example@gmail.com"
               // onChange={handleAmountInput}
             />
           </div>
@@ -29,11 +32,30 @@ const Login = () => {
               // onChange={handleAmountInput}
             />
           </div>
+          <div className="exp-container">
+            <label htmlFor="amount">
+              Username
+              <br />
+              <small></small>
+            </label>
+            <input
+              type="text"
+              // value={state.amount}
+              placeholder="Eg. Buchi"
+              // onChange={handleAmountInput}
+            />
+          </div>
         </form>
       </div>
-      <button className="btn">Login</button>
+      <button className="btn">Sign Up</button>
+      <h5>
+        {"Already have an account? "}
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          Log into your account
+        </Link>
+      </h5>
     </div>
   );
 };
 
-export default Login;
+export default SignUpForm;
