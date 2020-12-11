@@ -1,20 +1,11 @@
 import React, { Fragment, useState, useContext } from "react";
 import { TransactionsContext } from "../context/TransactionsContext";
 import { v1 as uuid } from "uuid";
-import {
-  Dots,
-  Levels,
-  Sentry,
-  Squares,
-  Spinner,
-  Digital,
-  Bounce,
-  Windmill,
-} from "react-activity";
+
 import "react-activity/dist/react-activity.css";
 
 export const AddTransaction = () => {
-  const { addTransaction, adding, deleting } = useContext(TransactionsContext);
+  const { addTransaction, adding } = useContext(TransactionsContext);
 
   const [state, setstate] = useState({
     transaction: "",

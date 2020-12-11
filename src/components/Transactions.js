@@ -1,16 +1,7 @@
 import React, { useContext } from "react";
 import { TransactionsContext } from "../context/TransactionsContext";
 import { Transaction } from "./Transaction";
-import {
-  Dots,
-  Levels,
-  Sentry,
-  Squares,
-  Spinner,
-  Digital,
-  Bounce,
-  Windmill,
-} from "react-activity";
+import { Sentry } from "react-activity";
 
 export const Transactions = () => {
   const { transactions, loading } = useContext(TransactionsContext);

@@ -8,7 +8,7 @@ const TransactionsContextProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
-  const [deleting, setDeleting] = useState(false);
+  // const [deleting, setDeleting] = useState(false);
 
   const unsubscrib = async () => {
     try {
@@ -78,7 +78,6 @@ const TransactionsContextProvider = ({ children }) => {
         addTransaction,
         loading,
         adding,
-        deleting,
       }}
     >
       {children}
