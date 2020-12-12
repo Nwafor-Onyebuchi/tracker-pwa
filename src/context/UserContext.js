@@ -1,22 +1,43 @@
 import React, { createContext, useState } from "react";
-// import { v1 as uuid } from "uuid";
+import { useHistory } from "react-router-dom";
 import { auth } from "../firebase/config";
-import history from "../service/history";
 
 export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  //Initialize history hook
+  const history = useHistory();
+
+  //Create a new user
   const register = async (email, password, userName) => {
     try {
       setLoading(true);
       const user = await auth.createUserWithEmailAndPassword(email, password);
+
+      // update Display name
       user.user.updateProfile({ displayName: userName });
-      console.log(user.user);
       setLoading(false);
-      setError("");
+
+      //direct to dashbord
       history.push("/dashboard");
+      setError("");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
+  };
+
+  //Login
+  const signIn = async (email, password) => {
+    try {
+      setLoading(true);
+      await auth.signInWithEmailAndPassword(email, password);
+      setLoading(false);
+      history.push("/dashboard");
+      setError("");
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -24,7 +45,7 @@ const UserContextProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ register, error, loading }}>
+    <UserContext.Provider value={{ register, error, loading, signIn }}>
       {children}
     </UserContext.Provider>
   );

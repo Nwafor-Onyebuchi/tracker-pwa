@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router";
 import SignIn from "./pages/Login";
 import history from "./service/history";
@@ -10,11 +10,11 @@ import Dashbord from "./pages/Dashboard";
 function App() {
   return (
     <div className="App">
-      <Router history={history}>
+      <BrowserRouter history={history}>
+        <Route path="/" exact component={SignIn} />
         <Route path="/register" component={SignUp} />
         <Route path="/dashboard" component={Dashbord} />
-        <Route path="/" exact component={SignIn} />
-      </Router>
+      </BrowserRouter>
     </div>
   );
 }

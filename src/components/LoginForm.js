@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Header } from "./Header";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { Squares } from "react-activity";
 
 const Login = () => {
+  const { signIn, error, loading } = useContext(UserContext);
+  console.log(loading);
+
+  const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const handleEmailInput = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordInput = (e) => {
+    setpassword(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signIn(email, password);
+    setpassword("");
+    setEmail("");
+  };
   return (
     <div>
       <Header name="Login" />
+      {error && <h5 style={{ color: "red" }}>{error}</h5>}
       <div className="inc-exp-container">
         <form id="signup">
           <div className="inc-container">
@@ -15,9 +38,9 @@ const Login = () => {
             </label>
             <input
               type="text"
-              // value={state.amount}
+              value={email}
               placeholder="example@gmail.com"
-              // onChange={handleAmountInput}
+              onChange={handleEmailInput}
             />
           </div>
           <div className="exp-container">
@@ -27,18 +50,24 @@ const Login = () => {
             </label>
             <input
               type="text"
-              // value={state.amount}
+              value={password}
               placeholder="Enter password"
-              // onChange={handleAmountInput}
+              onChange={handlePasswordInput}
             />
           </div>
         </form>
       </div>
-      <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
-        <button className="btn" onClick={() => console.log("clicked")}>
-          Login
-        </button>
-      </Link>
+
+      <button className="btn" onClick={handleSubmit}>
+        {loading ? (
+          <div id="activity">
+            <Squares color="#fff" size={24} />
+          </div>
+        ) : (
+          "Login"
+        )}
+      </button>
+
       <h5>
         {"Don't have an account? "}
         <Link to={"/register"} style={{ textDecoration: "none" }}>
