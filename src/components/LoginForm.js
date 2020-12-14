@@ -6,7 +6,7 @@ import { Squares } from "react-activity";
 
 const Login = () => {
   const { signIn, error, loading } = useContext(UserContext);
-  console.log(loading);
+  // console.log(loading);
 
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");

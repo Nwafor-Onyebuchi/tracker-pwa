@@ -7,6 +7,7 @@ export const UserContext = createContext();
 const UserContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   //Initialize history hook
   const history = useHistory();
@@ -20,6 +21,7 @@ const UserContextProvider = ({ children }) => {
       // update Display name
       user.user.updateProfile({ displayName: userName });
       setLoading(false);
+      setUser(user.user);
 
       //direct to dashbord
       history.push("/dashboard");
@@ -34,7 +36,8 @@ const UserContextProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       setLoading(true);
-      await auth.signInWithEmailAndPassword(email, password);
+      const user = await auth.signInWithEmailAndPassword(email, password);
+      setUser(user.user);
       setLoading(false);
       history.push("/dashboard");
       setError("");
@@ -44,8 +47,19 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  // Listen for auth changes
+  auth.onAuthStateChanged((user) => setUser(user));
+
+  //Logout
+  const signout = async () => {
+    await auth.signOut();
+    history.push("/");
+  };
+
   return (
-    <UserContext.Provider value={{ register, error, loading, signIn }}>
+    <UserContext.Provider
+      value={{ register, error, loading, signIn, user, signout }}
+    >
       {children}
     </UserContext.Provider>
   );

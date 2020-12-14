@@ -5,7 +5,7 @@ import { Sentry } from "react-activity";
 
 export const Transactions = () => {
   const { transactions, loading } = useContext(TransactionsContext);
-  console.log(loading);
+  // console.log(loading);
   return (
     <div>
       {transactions.length > 0 && <h3>History</h3>}
