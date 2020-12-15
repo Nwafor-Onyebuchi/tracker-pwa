@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { Squares } from "react-activity";
+import { Form, Button, Jumbotron } from "react-bootstrap";
 
 const Login = () => {
   const { signIn, error, loading } = useContext(UserContext);
@@ -29,45 +30,37 @@ const Login = () => {
     <div>
       <Header name="Login" />
       {error && <h5 style={{ color: "red" }}>{error}</h5>}
-      <div className="inc-exp-container">
-        <form id="signup">
-          <div className="inc-container">
-            <label htmlFor="amount">
-              Email <br />
-              <small></small>
-            </label>
-            <input
-              type="text"
-              value={email}
-              placeholder="example@gmail.com"
+      <Jumbotron>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
               onChange={handleEmailInput}
             />
-          </div>
-          <div className="exp-container">
-            <label htmlFor="amount">
-              Password <br />
-              <small></small>
-            </label>
-            <input
-              type="text"
-              value={password}
-              placeholder="Enter password"
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
               onChange={handlePasswordInput}
             />
-          </div>
-        </form>
-      </div>
+          </Form.Group>
 
-      <button className="btn" onClick={handleSubmit}>
-        {loading ? (
-          <div id="activity">
-            <Squares color="#fff" size={24} />
-          </div>
-        ) : (
-          "Login"
-        )}
-      </button>
-
+          <Button variant="primary" type="submit" className="btn-block">
+            {loading ? (
+              <div id="activity">
+                <Squares color="#fff" size={24} />
+              </div>
+            ) : (
+              "Login"
+            )}
+          </Button>
+        </Form>
+      </Jumbotron>
       <h5>
         {"Don't have an account? "}
         <Link to={"/register"} style={{ textDecoration: "none" }}>

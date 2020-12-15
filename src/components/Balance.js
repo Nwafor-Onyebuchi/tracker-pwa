@@ -9,7 +9,7 @@ export const Balance = () => {
   const total = amount.reduce((acc, item) => (acc += item), 0);
   return (
     <Fragment>
-      <h4 style={{ marginTop: "24px" }}>YOUR BALANCE</h4>
+      <h5 style={{ marginTop: "24px" }}>YOUR BALANCE</h5>
       <h1 id="balance">{total}</h1>
     </Fragment>
   );

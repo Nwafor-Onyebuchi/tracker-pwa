@@ -20,7 +20,6 @@ const UserContextProvider = ({ children }) => {
 
       // update Display name
       user.user.updateProfile({ displayName: userName });
-
       await firestore
         .collection("users")
         .doc(user.user.uid)

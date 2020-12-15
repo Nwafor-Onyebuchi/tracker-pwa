@@ -1,12 +1,13 @@
 import React, { Fragment, useState, useContext } from "react";
 import { TransactionsContext } from "../context/TransactionsContext";
 import { v1 as uuid } from "uuid";
+import { Form, Button } from "react-bootstrap";
 
 import "react-activity/dist/react-activity.css";
 import { UserContext } from "../context/UserContext";
 
 export const AddTransaction = () => {
-  const { addTransaction, adding } = useContext(TransactionsContext);
+  const { addTransaction } = useContext(TransactionsContext);
   const { user } = useContext(UserContext);
 
   const [state, setstate] = useState({
@@ -31,32 +32,31 @@ export const AddTransaction = () => {
   return (
     <Fragment>
       <h3>Add transaction</h3>
-      <form>
-        <div className="form-control">
-          <label htmlFor="Transaction">Transaction</label>
-          <input
+      <Form onSubmit={show}>
+        <Form.Group>
+          <Form.Label>Transaction</Form.Label>
+          <Form.Control
             type="text"
-            value={state.transaction}
-            placeholder="Enter short description for transaction"
+            placeholder="Add transaction"
             onChange={handleTransactionInput}
+            value={state.transaction}
           />
-        </div>
-        <div className="form-control">
-          <label htmlFor="amount">
-            Amount <br />
-            <small></small>
-          </label>
-          <input
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Amount</Form.Label>
+          <Form.Control
             type="number"
-            value={state.amount}
-            placeholder="500 (income) or -500 (expense)"
+            placeholder="Amount"
             onChange={handleAmountInput}
+            value={state.amount}
           />
-        </div>
-        <button className="btn" onClick={show} disabled={adding ? true : false}>
-          {"Add Transaction"}
-        </button>
-      </form>
+        </Form.Group>
+
+        <Button variant="primary" className="btn-block" type="submit">
+          Add Transaction
+        </Button>
+      </Form>
     </Fragment>
   );
 };

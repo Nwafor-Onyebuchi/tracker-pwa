@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { Squares } from "react-activity";
+import { Jumbotron, Button, Form, Container } from "react-bootstrap";
 
 const SignUpForm = () => {
   const { register, error, loading } = useContext(UserContext);
@@ -35,63 +36,54 @@ const SignUpForm = () => {
     <div>
       <Header name="Sign Up" />
       {error && <h5 style={{ color: "red" }}>{error}</h5>}
-      <div className="inc-exp-container">
-        <form id="signup">
-          <div className="inc-container">
-            <label htmlFor="email">
-              Email <br />
-              <small></small>
-            </label>
-            <input
+
+      <Jumbotron>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
               onChange={handleEmailInput}
-              type="text"
               value={email}
-              placeholder="example@gmail.com"
             />
-          </div>
-          <div className="exp-container">
-            <label htmlFor="email">
-              Password <br />
-              <small></small>
-            </label>
-            <input
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
               onChange={handlePasswordInput}
-              type="text"
               value={password}
-              placeholder="Enter password"
             />
-          </div>
-          <div className="exp-container">
-            <label htmlFor="email">
-              Username <br />
-              <small></small>
-            </label>
-            <input
-              onChange={handleUserNameInput}
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
               type="text"
-              value={userName}
               placeholder="Eg. Buchi"
+              onChange={handleUserNameInput}
+              value={userName}
             />
-          </div>
-        </form>
-      </div>
-      <button
-        className="btn"
-        onClick={handleSubmit}
-        disabled={loading ? true : false}
-      >
-        {loading ? (
-          <div id="activity">
-            <Squares color="#fff" size={24} />
-          </div>
-        ) : (
-          "Sign up"
-        )}
-      </button>
+          </Form.Group>
+
+          <Button variant="primary" type="submit" className="btn-block">
+            {loading ? (
+              <div id="activity">
+                <Squares color="#fff" size={24} />
+              </div>
+            ) : (
+              "Sign up"
+            )}
+          </Button>
+        </Form>
+      </Jumbotron>
+
       <h5>
         {"Already have an account? "}
         <Link to={"/"} style={{ textDecoration: "none" }}>
-          Log into your account
+          Login
         </Link>
       </h5>
     </div>

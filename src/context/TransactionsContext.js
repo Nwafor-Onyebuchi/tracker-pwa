@@ -14,7 +14,6 @@ const TransactionsContextProvider = ({ children }) => {
   const unsubscrib = async () => {
     if (user) {
       try {
-        console.log(user.uid, "ui");
         setLoading(true);
         const data = [];
         await firestore
