@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { Squares } from "react-activity";
-import { Jumbotron, Button, Form, Container } from "react-bootstrap";
+import { Jumbotron, Button, Form } from "react-bootstrap";
 
 const SignUpForm = () => {
   const { register, error, loading } = useContext(UserContext);
