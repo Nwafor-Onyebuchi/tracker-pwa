@@ -1,44 +1,53 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { v1 as uuid } from "uuid";
 import { firestore } from "../firebase/config";
+import { UserContext } from "../context/UserContext";
 
 export const TransactionsContext = createContext();
 
 const TransactionsContextProvider = ({ children }) => {
+  const { user } = useContext(UserContext);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
-  // const [deleting, setDeleting] = useState(false);
 
   const unsubscrib = async () => {
-    try {
-      setLoading(true);
-      const data = [];
-      await firestore.collection("transactions").onSnapshot((snapshot) => {
-        let changes = snapshot.docChanges();
-        changes.forEach((change) => {
-          if (change.type === "added") {
-            data.push(change.doc.data());
-            setAdding(false);
-          } else if (change.type === "removed") {
-            setTransactions(
-              data.filter((trans) => trans._id !== change.doc.data()._id)
-            );
-          }
-        });
-        setTransactions(data);
+    if (user) {
+      try {
+        console.log(user.uid, "ui");
+        setLoading(true);
+        const data = [];
+        await firestore
+          .collection("transactions")
+          .where("user", "==", user.uid)
+          .onSnapshot((snapshot) => {
+            let changes = snapshot.docChanges();
+            changes.forEach((change) => {
+              if (change.type === "added") {
+                data.push(change.doc.data());
+                setAdding(false);
+              } else if (change.type === "removed") {
+                setTransactions(
+                  data.filter((trans) => trans._id !== change.doc.data()._id)
+                );
+              }
+            });
+            setTransactions(data);
+            setLoading(false);
+          });
         setLoading(false);
-      });
-      setLoading(false);
-    } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
-  const addTransaction = async (narration, amount) => {
+  const addTransaction = async (narration, amount, user) => {
     try {
       setAdding(true);
       await firestore
         .collection("transactions")
-        .add({ amount, narration, _id: uuid() });
+        .add({ amount, narration, _id: uuid(), user });
       setLoading(false);
     } catch (error) {
       setAdding(false);
@@ -67,8 +76,8 @@ const TransactionsContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    return unsubscrib();
-  }, []);
+    unsubscrib();
+  }, [user]);
 
   return (
     <TransactionsContext.Provider

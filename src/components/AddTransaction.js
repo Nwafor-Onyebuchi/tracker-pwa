@@ -3,9 +3,11 @@ import { TransactionsContext } from "../context/TransactionsContext";
 import { v1 as uuid } from "uuid";
 
 import "react-activity/dist/react-activity.css";
+import { UserContext } from "../context/UserContext";
 
 export const AddTransaction = () => {
   const { addTransaction, adding } = useContext(TransactionsContext);
+  const { user } = useContext(UserContext);
 
   const [state, setstate] = useState({
     transaction: "",
@@ -22,7 +24,7 @@ export const AddTransaction = () => {
 
   const show = (e) => {
     e.preventDefault();
-    addTransaction(state.transaction, state.amount);
+    addTransaction(state.transaction, state.amount, user.uid);
     setstate({ transaction: "", amount: "", uuid: "" });
   };
 

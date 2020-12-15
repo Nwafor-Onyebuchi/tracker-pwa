@@ -10,15 +10,15 @@ import UserContextProvider from "../context/UserContext";
 
 const Dashbord = () => {
   return (
-    <TransactionsContextProvider>
-      <UserContextProvider>
+    <UserContextProvider>
+      <TransactionsContextProvider>
         <Header name={"TrackIt"} />
         <Balance />
         <Cashflow />
         <Transactions />
         <AddTransaction />
-      </UserContextProvider>
-    </TransactionsContextProvider>
+      </TransactionsContextProvider>
+    </UserContextProvider>
   );
 };
 

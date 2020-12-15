@@ -1,6 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { auth } from "../firebase/config";
+import { auth, firestore } from "../firebase/config";
 
 export const UserContext = createContext();
 
@@ -20,6 +20,11 @@ const UserContextProvider = ({ children }) => {
 
       // update Display name
       user.user.updateProfile({ displayName: userName });
+
+      await firestore
+        .collection("users")
+        .doc(user.user.uid)
+        .set({ displayName: userName, _id: user.user.uid });
       setLoading(false);
       setUser(user.user);
 
@@ -29,6 +34,7 @@ const UserContextProvider = ({ children }) => {
     } catch (error) {
       setLoading(false);
       setError(error.message);
+      console.log(error);
     }
   };
 
@@ -38,6 +44,7 @@ const UserContextProvider = ({ children }) => {
       setLoading(true);
       const user = await auth.signInWithEmailAndPassword(email, password);
       setUser(user.user);
+
       setLoading(false);
       history.push("/dashboard");
       setError("");
@@ -47,14 +54,21 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
-  // Listen for auth changes
-  auth.onAuthStateChanged((user) => setUser(user));
-
   //Logout
   const signout = async () => {
     await auth.signOut();
     history.push("/");
   };
+
+  useEffect(() => {
+    // Listen for auth changes
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        history.push("/dashboard");
+        setUser(user);
+      }
+    });
+  }, []);
 
   return (
     <UserContext.Provider
