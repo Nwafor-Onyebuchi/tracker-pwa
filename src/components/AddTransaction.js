@@ -53,7 +53,7 @@ export const AddTransaction = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" className="btn-block" type="submit">
+        <Button variant="primary" className="btn-block mb-5" type="submit">
           Add Transaction
         </Button>
       </Form>

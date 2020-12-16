@@ -1,5 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import image from "../assets/avatar.png";
+import logo from "../assets/icon512.png";
 import { UserContext } from "../context/UserContext";
 import { Button, Image, OverlayTrigger, Popover } from "react-bootstrap";
 
@@ -21,11 +22,13 @@ export function Header({ name }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          marginTop: "20px",
         }}
       >
-        <h2 className="header" onClick={signout}>
+        {/* <h2 className="header" onClick={signout}>
           {name}
-        </h2>
+        </h2> */}
+        <Image src={logo} rounded height="50" width="50" />
 
         {user && (
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -37,8 +40,8 @@ export function Header({ name }) {
               <Image
                 src={image}
                 rounded
-                height="40"
-                width="40"
+                height="20"
+                width="20"
                 style={{ borderRadius: "50%", cursor: "pointer" }}
               />
             </OverlayTrigger>
@@ -46,7 +49,8 @@ export function Header({ name }) {
               style={{
                 marginLeft: "8px",
                 fontWeight: "bold",
-                fontSize: "20px",
+                fontSize: "16px",
+                marginTop: "5px",
               }}
             >
               {user.displayName}
