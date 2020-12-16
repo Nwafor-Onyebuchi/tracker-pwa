@@ -47,7 +47,7 @@ export const AddTransaction = () => {
           <Form.Label>Amount</Form.Label>
           <Form.Control
             type="number"
-            placeholder="Amount"
+            placeholder="500 (income) or -500 (expense)"
             onChange={handleAmountInput}
             value={state.amount}
           />

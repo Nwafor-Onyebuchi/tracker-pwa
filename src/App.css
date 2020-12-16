@@ -117,9 +117,6 @@ input[type='number'] {
   
 }
 
-.tooltip {
-  /* margin-left: 20px; */
-}
 
 .tooltip .tooltiptext {
   visibility: hidden;
